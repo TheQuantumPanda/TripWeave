@@ -87,7 +87,7 @@ CSS tokens on `:root` (light) and `html.dark`; existing theme storage keys are p
 
 | Element | Treatment |
 | --- | --- |
-| Palette | Warm ivory `#f6f4ee`, forest green `#275046`, restrained terracotta, semantic status colors |
+| Palette | Modern minimal neutral base (light `#F7F9F8`, dark `#111714`), solid card surfaces (`#FFFFFF` / `#1B2420`), subtle emerald accents (`#087855` / `#8EDAB6`), charcoal typography (`#18211E` / `#EDF4EF`), neutral borders (`#DDE5E0` / `#39453F`), semantic status colors |
 | Typography | Instrument Serif for editorial headings; Plus Jakarta Sans for controls; JetBrains Mono for counters and graph details; system fallbacks |
 | Surfaces | Solid paper cards, thin borders, modest radii and subtle shadows |
 | Layout | Editorial hero; desktop guide beside the planner; stacked mobile workspace |

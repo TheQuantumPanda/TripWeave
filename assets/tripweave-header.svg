@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 250" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="twBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E1613" />
+      <stop offset="50%" stop-color="#121C18" />
+      <stop offset="100%" stop-color="#16231E" />
+    </linearGradient>
+
+    <!-- Subtle Emerald Radial Glow -->
+    <radialGradient id="twEmeraldGlow" cx="50%" cy="25%" r="65%">
+      <stop offset="0%" stop-color="#087855" stop-opacity="0.22" />
+      <stop offset="50%" stop-color="#087855" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#087855" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Top Highlight Accent Border -->
+    <linearGradient id="twTopBorderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1E2E27" stop-opacity="0.2" />
+      <stop offset="30%" stop-color="#2D9F83" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#8EDAB6" stop-opacity="0.9" />
+      <stop offset="70%" stop-color="#2D9F83" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#1E2E27" stop-opacity="0.2" />
+    </linearGradient>
+
+    <!-- Icon Box Gradient -->
+    <linearGradient id="twIconBoxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1B2B24" />
+      <stop offset="100%" stop-color="#13201A" />
+    </linearGradient>
+
+    <!-- Pill Gradient -->
+    <linearGradient id="twPillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#192821" />
+      <stop offset="100%" stop-color="#121D18" />
+    </linearGradient>
+  </defs>
+
+  <!-- Card Background -->
+  <rect x="1" y="1" width="898" height="248" rx="14" fill="url(#twBgGrad)" stroke="#263930" stroke-width="1.2" />
+  <rect x="1" y="1" width="898" height="248" rx="14" fill="url(#twEmeraldGlow)" />
+
+  <!-- Top Accent Highlight Line -->
+  <path d="M 24 1 L 876 1" stroke="url(#twTopBorderGrad)" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Brand Section (Centered) -->
+  <g transform="translate(450, 36)">
+    <!-- Woven Mark Icon Container -->
+    <g transform="translate(-24, 0)">
+      <rect x="0" y="0" width="48" height="48" rx="12" fill="url(#twIconBoxGrad)" stroke="#2D4D3E" stroke-width="1.2" />
+      <!-- TripWeave Woven Threads Symbol (from TopBar.tsx) -->
+      <g transform="translate(8, 8)">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M6 7h20M11 7v18M21 7v18M6 15c5-5 15 7 20 2M6 23c5-5 15 7 20 2" stroke="#8EDAB6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </g>
+    </g>
+
+    <!-- Product Title -->
+    <text x="0" y="74" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#EDF4EF" letter-spacing="-0.03em">TripWeave<tspan fill="#8EDAB6">.</tspan></text>
+
+    <!-- Tagline -->
+    <text x="0" y="96" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14.5" font-weight="500" fill="#8EDAB6" letter-spacing="0.01em">Weave your next adventure.</text>
+
+    <!-- Subtitle -->
+    <text x="0" y="117" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12.5" font-weight="400" fill="#9FB2A8" letter-spacing="-0.01em">AI-Powered Multi-Agent Travel Planning Workspace</text>
+  </g>
+
+  <!-- Workflow Pipeline Strip -->
+  <g transform="translate(450, 182)">
+    <!-- Stage 1: Input Guardrail -->
+    <g transform="translate(-380, 0)">
+      <rect x="0" y="0" width="124" height="32" rx="7" fill="url(#twPillGrad)" stroke="#253D32" stroke-width="1" />
+      <text x="62" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#CDE2D7">Input Guardrail</text>
+    </g>
+
+    <!-- Arrow 1 -->
+    <text x="-242" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#4D7462">→</text>
+
+    <!-- Stage 2: Supervisor Routing -->
+    <g transform="translate(-228, 0)">
+      <rect x="0" y="0" width="134" height="32" rx="7" fill="url(#twPillGrad)" stroke="#253D32" stroke-width="1" />
+      <text x="67" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#CDE2D7">Supervisor Routing</text>
+    </g>
+
+    <!-- Arrow 2 -->
+    <text x="-80" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#4D7462">→</text>
+
+    <!-- Stage 3: Specialist MCPs -->
+    <g transform="translate(-66, 0)">
+      <rect x="0" y="0" width="132" height="32" rx="7" fill="url(#twPillGrad)" stroke="#253D32" stroke-width="1" />
+      <text x="66" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#CDE2D7">Specialist Agents</text>
+    </g>
+
+    <!-- Arrow 3 -->
+    <text x="80" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#4D7462">→</text>
+
+    <!-- Stage 4: HITL Review -->
+    <g transform="translate(94, 0)">
+      <rect x="0" y="0" width="132" height="32" rx="7" fill="url(#twPillGrad)" stroke="#253D32" stroke-width="1" />
+      <text x="66" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#CDE2D7">Human-in-the-Loop</text>
+    </g>
+
+    <!-- Arrow 4 -->
+    <text x="240" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#4D7462">→</text>
+
+    <!-- Stage 5: Final Itinerary -->
+    <g transform="translate(254, 0)">
+      <rect x="0" y="0" width="126" height="32" rx="7" fill="url(#twPillGrad)" stroke="#253D32" stroke-width="1" />
+      <text x="63" y="20" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="500" fill="#CDE2D7">Durable Itinerary</text>
+    </g>
+  </g>
+</svg>

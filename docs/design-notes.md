@@ -229,15 +229,19 @@ Stated plainly, because knowing where a system is weak is part of building it:
 - **Long artifacts are truncated, not summarised.** `MAX_ARTIFACT_CHARS` cuts on a line
   boundary and appends a marker. A summarisation pass would preserve more signal per token,
   at the cost of another model call per agent.
-- **Continuation seams are not verified.** The model is instructed not to repeat itself when
-  resuming, but nothing checks the join. A duplicated heading is possible on an unlucky
-  continuation, and a deterministic overlap check would catch it.
+- **Continuation seam deduplication is bounded to exact line boundaries.** `_join_continuation()`
+  deterministically strips exact suffix/prefix overlaps of at least 32 characters starting at a line
+  boundary. However, semantic paraphrasing, non-boundary repetitions, or regenerated heading duplicates
+  are not detected and can appear across continuation calls.
 - **`uvx` is a hard dependency** for the flight agent. It is installed in the Docker image, but a
   bare-metal deploy needs `uv` on `PATH` or the flight agent degrades to its fallback message.
 - **Guardrail fails open.** A malformed classifier response allows the request through. That is a
   deliberate product choice, documented in [Design Decisions](#-design-decisions--trade-offs), not
   an oversight — but it is the right thing to change first under a stricter threat model.
-- **Offline test coverage only.** The existing pytest suite stubs persistence and model calls; it does not establish live provider or database correctness. See [verification](verification.md).
+- **Verification scope.** Unit and regression test suites stub external provider APIs and use an
+  in-memory checkpointer. Local live generation, approval, and finalization succeeded, as did live
+  hosted draft generation on Render; however, hosted approval/finalization is not independently confirmed.
+  See [verification](verification.md).
 
 ---
 
@@ -254,8 +258,7 @@ Stated plainly, because knowing where a system is weak is part of building it:
       retrieval loses signal rather than just tail bytes
 - [ ] **Token accounting from the provider response** (`usage.prompt_tokens`) to replace the
       character estimate with measured values
-- [ ] **Overlap detection on continuation joins**, so a repeated line at the seam is removed
-      rather than trusted away by the prompt
+- [x] **Overlap detection on continuation joins** — exact line-boundary suffix/prefix overlap (≥ 32 chars) deterministically stripped; semantic deduplication remains future work
 - [ ] **Evaluation harness** — a golden set scored on groundedness, section completeness, budget adherence, and routing precision/recall
 - [ ] **Test suite** — `pytest` for the supervisor JSON contract, mocked MCP tool tests, and graph-level integration tests including the interrupt/resume cycle
 - [ ] **Multi-turn threads** — follow-up questions against a finalised plan on the same `thread_id`

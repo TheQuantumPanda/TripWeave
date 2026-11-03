@@ -438,3 +438,55 @@ Very large rich-content rows and arbitrary Markdown layouts remain subject to th
 exporter's pagination limits. Supplemental OCR could not run because Tesseract's English data is
 not installed; content evidence comes from clipboard/DOM checks and rendered-page inspection.
 No dependencies were installed to enable OCR.
+
+## Colour refinement and visual accessibility — 3 November 2026
+
+The interface was refined to a Modern Minimal identity with restrained emerald accents and
+independently contrast-tuned light and dark palettes:
+
+- **Tokens:** Neutral page base (`#F7F9F8` light / `#111714` dark), solid card surfaces (`#FFFFFF` / `#1B2420`), secondary input surfaces (`#F0F4F1` / `#27312C`), charcoal typography (`#18211E` / `#EDF4EF`), and subtle emerald accents (`#087855` / `#8EDAB6`).
+- **Contrast verification:** 29 token/control/focus/semantic pairs per theme verified. Minimum 7.10:1 for small photo kickers, 5.49:1 / 11.11:1 for primary button text, and 4.94:1 / 8.23:1 for focus rings against input surfaces.
+- **Responsive inspection:** All 60 state × theme × viewport combinations (320, 390, 768, 1024, 1440 CSS pixels) evaluated for horizontal overflow.
+- **PDF style isolation:** Border alpha explicitly pinned (`--border-alpha: 0.15`, `--border-strong-alpha: 0.32`) within `.pdf-light` to prevent screen token updates from altering exported documents.
+
+## Static PDF import hardening — 3 November 2026
+
+`ResultPanel.tsx` imports `html2pdf.js` statically at module scope rather than lazily inside `handleDownload`. This ensures that all PDF generation machinery (including snapDOM, html2canvas and jsPDF 4.2.1) is evaluated during initial bundle load, eliminating late chunk fetch failures if subsequent script requests fail.
+
+| Check | Result | Evidence / Scope |
+| --- | --- | --- |
+| `npm run typecheck` & `npm run build` | **PASS** | Vite 5.4.21, 2,595 transformed modules |
+| Existing synthetic browser regressions | **PASS** (35/35 assertions) | `tests/ui-browser-check.js` |
+| PDF presentation regressions | **PASS** (19/19 assertions) | `tests/pdf-presentation-check.js` |
+| Goa 3-day realistic fixture regression | **PASS** (106/106 assertions) | `tests/pdf-goa-check.js` via `tests/run-pdf-goa-check.py` |
+| Script-blocked export resilience | **PASS** | Both themes export valid A4 drafts when subsequent script requests return 404 |
+| Cross-engine verification | **PASS** | Chromium and Zen 1.23.2b / Gecko |
+| Installed production dependency audit | **PASS** (0 vulnerabilities) | `npm audit --omit=dev` |
+
+## Comprehensive V1 Verification Evidence Summary
+
+The following table summarizes the verified operational evidence across local integration,
+synthetic browser testing, and the live hosted deployment:
+
+| Verification Area | Status | Documented Evidence |
+| --- | :---: | --- |
+| **Local offline test suite** | **PASS** | 27/27 pytest cases passing (stubs external LLM/MCP providers and uses in-memory checkpointer). |
+| **Frontend typecheck & build** | **PASS** | TypeScript strict checks pass; Vite 5.4.21 builds cleanly with 0 type errors. |
+| **Synthetic browser regression** | **PASS** | 35 browser-level UI assertions passing across 5 responsive breakpoints (320–1440px). |
+| **PDF layout & presentation** | **PASS** | 19 layout assertions passing (table page-breaks, HTML escaping, export text order). |
+| **Realistic Goa fixture export** | **PASS** | 106 assertions passing across light/dark themes with jsPDF 4.2.1. |
+| **Local live draft generation** | **PASS** | Successfully generated full multi-agent drafts using live Groq LLM and MCP tool calls. |
+| **Local live HITL review** | **PASS** | Draft approval and feedback-driven revision both successfully resumed and finalized. |
+| **Local live PDF export** | **PASS** | Downloaded valid single- and multi-page A4 PDFs from live generated itineraries. |
+| **Hosted service liveness** | **PASS** | Public endpoint `https://tripweave-mq1h.onrender.com/health` returns HTTP 200 with active feature list. |
+| **Hosted live draft generation** | **PASS** | Public hosted interface successfully generated multi-agent draft itinerary and exported PDF. |
+| **Hosted approval & finalization** | **UNCONFIRMED** | Hosted approval/revision finalization has not been independently confirmed end-to-end. |
+| **Production dependency audit** | **PASS** | `npm audit --omit=dev` reports 0 vulnerabilities in installed production packages. |
+| **Development dependency audit** | **KNOWN FINDINGS** | `npm audit` reports 4 advisories in dev/build dependencies (Vite, source-map-js, esbuild, postcss-selector-parser); none are bundled into client runtime. |
+
+### Verification Qualifications & Boundaries
+
+1. **Synthetic vs. Live Testing:** Synthetic browser tests validate state transitions, DOM rendering, and PDF generation against mock API contracts. They do not validate live external provider uptime or LLM output accuracy.
+2. **Local vs. Hosted Execution:** Local live integration verified end-to-end multi-agent execution, checkpointer persistence, and human review with valid credentials. Hosted verification on Render confirmed service availability, live draft generation, and PDF download, but hosted approval/finalization remains unconfirmed.
+3. **Audit Scope:** The clean vulnerability audit applies to installed production dependencies (`--omit=dev`). Development and build tools contain 4 known advisories that remain outside the runtime bundle.
+4. **Output Guarantees:** Successful verification confirms system orchestration, interrupt resumption, and document compilation. It does not certify that generated itineraries possess 100% schedule accuracy or valid real-time pricing.

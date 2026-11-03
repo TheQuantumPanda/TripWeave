@@ -161,7 +161,7 @@ Example `.env`:
 
 ```dotenv
 GROQ_API_KEY=gsk_...
-DATABASE_URL=postgresql://user:pass@host:5432/voyagen
+DATABASE_URL=postgresql://user:pass@host:5432/tripweave
 TAVILY_API_KEY=tvly-...
 AVIATION_STACK_API_KEY=...
 OPENWEATHER_API_KEY=...
@@ -340,10 +340,20 @@ That is the whole step — no code change and no second server. The wiring is:
 | `/assets/*` | `frontend/dist/assets/` — Vite's hashed bundles |
 | `/api/*`, `/health`, `/docs`, `/redoc` | Unchanged |
 
-`GET /health` reports which UI is live, so a deploy that forgot to build is obvious:
+`GET /health` reports which UI is live, along with API status and active features:
 
 ```json
-{ "status": "ok", "frontend": "react" }     // or "not_built"
+{
+  "status": "ok",
+  "message": "TripWeave API is running",
+  "features": [
+    "supervisor_agent",
+    "input_guardrail",
+    "mcp_tool_fabric",
+    "human_in_the_loop"
+  ],
+  "frontend": "react"
+}
 ```
 
 > The SPA is served by an explicit `/` route rather than a `StaticFiles(html=True)` catch-all
@@ -407,6 +417,20 @@ Cloud Run, or ECS with no changes — supply the variables from `.env` as platfo
 
 > `.dockerignore` excludes `.env`, so credentials are never baked into an image layer. Pass them
 > at run time with `--env-file` or platform secrets, as above.
+
+---
+
+## 🌐 Live Deployment
+
+**Live Application:** [https://tripweave-mq1h.onrender.com](https://tripweave-mq1h.onrender.com)
+
+The public deployment runs as a containerized web service with the following configuration:
+
+- **Hosting platform:** [Render](https://render.com/) Docker Web Service built directly from the multi-stage `Dockerfile`.
+- **Single-origin serving:** FastAPI runs via Uvicorn on `${PORT:-7860}`, serving both the REST API endpoints (`/api/travel`, `/api/travel/approve`, `/health`) and the compiled React production SPA (`frontend/dist/index.html` at `/` and assets at `/assets`).
+- **Checkpoint persistence:** Remote [Neon PostgreSQL](https://neon.tech/) database instance connected via `DATABASE_URL` with `sslmode=require` and connection pooling (`psycopg_pool.ConnectionPool`).
+- **Configuration management:** Server-side environment variables configured via Render's dashboard secrets (`GROQ_API_KEY`, `DATABASE_URL`, `TAVILY_API_KEY`, `AVIATION_STACK_API_KEY`, `OPENWEATHER_API_KEY`).
+- **Cold start note:** Because the live demo runs on Render's free tier, the instance spins down after periods of inactivity. Initial requests may experience a 30–50 second cold-start delay while the container spins up and restores database connections. Subsequent interactions respond with normal low latency.
 
 ---
 
