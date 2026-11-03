@@ -154,7 +154,7 @@ async def approve_travel_plan(request_data: ApprovalRequest):
 async def health_check():
     return {
         "status": "ok",
-        "message": "VoyaGen AI API is running",
+        "message": "TripWeave API is running",
         "features": [
             "supervisor_agent",
             "input_guardrail",

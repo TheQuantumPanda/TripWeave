@@ -34,7 +34,7 @@ export function TopBar({ theme, onToggleTheme, online, onReset, canReset }: TopB
               <RotateCcw size={14} /><span>New session</span>
             </button>
           )}
-          <a href="https://github.com/ayushYadav1107/VoyaGen-AI-" target="_blank" rel="noreferrer noopener" aria-label="Original project source" className="icon-button source-link" title="Original project source"><Github size={17} /></a>
+          <a href="https://github.com/TheQuantumPanda/TripWeave" target="_blank" rel="noreferrer noopener" aria-label="Project source" className="icon-button source-link" title="Project source"><Github size={17} /></a>
           <button onClick={onToggleTheme} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`} className="icon-button">
             {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
           </button>
